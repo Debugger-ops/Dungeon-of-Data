@@ -3,9 +3,11 @@ import { HBars, Legend } from './components/Charts'
 import { ACHIEVEMENTS } from './lib/achievements'
 import { ROOMS } from './lib/rooms'
 import { liveStreak, useProgress } from './progress'
+import { useAccount } from './accounts'
 
 export default function Ledger() {
   const { S, go, exportData, importData, resetAll } = useProgress()
+  const { profile } = useAccount()
   const fileRef = useRef(null)
   const [note, setNote] = useState('')
   const [armed, setArmed] = useState(false)
@@ -15,7 +17,7 @@ export default function Ledger() {
     const url = URL.createObjectURL(new Blob([exportData()], { type: 'application/json' }))
     const a = document.createElement('a')
     a.href = url
-    a.download = `dungeon-of-data-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `dungeon-of-data-${profile.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     setTimeout(() => URL.revokeObjectURL(url), 1000)
     setNote('Progress exported.')
@@ -47,7 +49,7 @@ export default function Ledger() {
       <div className="roomhead">
         <div>
           <h2>Ledger</h2>
-          <p className="lede">Your record across the dungeon. It saves in this browser only.</p>
+          <p className="lede">{profile.name}'s record across the dungeon. It saves in this browser only.</p>
         </div>
         <button className="btn ghost" onClick={() => go('map')}>← Map</button>
       </div>
@@ -147,7 +149,7 @@ export default function Ledger() {
       </div>
       <div className="card">
         <h3>Save data</h3>
-        <p className="lede" style={{ margin: '4px 0 8px' }}>Progress lives in this browser. Export a JSON backup to move it to another browser or keep it safe. Importing replaces current progress.</p>
+        <p className="lede" style={{ margin: '4px 0 8px' }}>Progress lives in this browser. Export a JSON backup of this profile to move it to another browser or keep it safe. Importing replaces this profile's progress.</p>
         <div className="row">
           <button className="btn" onClick={doExport}>Export JSON</button>
           <button className="btn" onClick={() => fileRef.current && fileRef.current.click()}>Import JSON</button>

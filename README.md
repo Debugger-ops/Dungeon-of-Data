@@ -32,5 +32,7 @@ npm run build    # static site in dist/
 - **Difficulty** (map screen): Easy +2 lives and half XP, Normal, Hard 1 fewer life and 1.5x XP.
 - **Daily challenge** with streaks and bonus XP (always plays on Normal).
 - **Achievements** with toasts, listed in the Ledger.
+- **Analytics** page: mastery radar, XP trend, activity heatmap, rolling accuracy, and an Algorithm lab with measured sorting counts, BST height and hash-probe curves (log-log charts with hover).
+- **Local profiles**: create, switch and delete named profiles (colour avatar, optional PIN). Each keeps its own progress; progress saved before this feature becomes "Player 1". Stored in this browser only; a PIN is a lock screen, not encryption. Cloud sync would need a backend (Supabase or Firebase).
 - **Scholar's Quiz**, and **export / import / reset** of progress as JSON in the Ledger.
 # Dungeon-of-Data

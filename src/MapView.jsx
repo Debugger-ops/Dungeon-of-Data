@@ -70,6 +70,17 @@ export default function MapView() {
           <div className="sub">Short Big-O and concept questions, aimed at the rooms where you slip most</div>
           <div className="meta"><span>{S.quiz.taken} taken</span><span>{S.quiz.perfect} perfect</span></div>
         </button>
+        <button className="room" onClick={() => go('lab')}>
+          <svg viewBox="0 0 124 64" style={{ fill: 'none', strokeWidth: 2.5 }} aria-hidden="true">
+            <path d="M6 58 H120 M6 58 V4" style={{ stroke: 'var(--mut)', strokeWidth: 1.5 }} />
+            <polyline points="10,52 40,44 70,30 100,12 118,6" style={{ stroke: 'var(--bad)' }} />
+            <polyline points="10,52 40,48 70,42 100,34 118,30" style={{ stroke: 'var(--ok)' }} />
+            <polyline points="10,52 40,50 70,49 100,48 118,47" style={{ stroke: 'var(--arc)' }} />
+          </svg>
+          <h3>Analytics</h3>
+          <div className="sub">Radar, XP trend, activity heatmap, plus measured sorting, BST and hash-table growth charts</div>
+          <div className="meta"><span>charts</span><span>{Object.keys(S.activity || {}).length} active days</span></div>
+        </button>
         <button className="room" onClick={() => go('tome')}>
           <svg viewBox="0 0 124 64" style={{ fill: 'none', stroke: 'var(--torch)', strokeWidth: 2.5 }} aria-hidden="true">
             <path d="M6 58 C40 58 60 54 80 40 S110 8 120 4" />

@@ -1,5 +1,7 @@
 import { useEffect } from 'react'
-import { ProgressProvider, useProgress } from './progress'
+import { useProgress } from './progress'
+import { AccountProvider, Avatar, useAccount } from './accounts'
+import AccountView from './AccountView'
 import { RANKS } from './lib/rooms'
 import MapView from './MapView'
 import Tome from './Tome'
@@ -12,12 +14,14 @@ import GraphLabyrinth from './rooms/GraphLabyrinth'
 import HashForge from './rooms/HashForge'
 import Daily from './Daily'
 import Quiz from './Quiz'
+import Analytics from './Analytics'
 
-const VIEWS = { map: MapView, sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, daily: Daily, quiz: Quiz, tome: Tome, ledger: Ledger }
-const NAV = [['map', 'Map'], ['sort', 'Sorting Hall'], ['bsearch', 'Binary Vault'], ['keep', 'The Keep'], ['crypt', 'Root Crypt'], ['maze', 'Labyrinth'], ['hash', 'Hash Forge'], ['daily', 'Daily'], ['quiz', 'Quiz'], ['tome', 'Tome'], ['ledger', 'Ledger']]
+const VIEWS = { map: MapView, sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, daily: Daily, quiz: Quiz, lab: Analytics, account: AccountView, tome: Tome, ledger: Ledger }
+const NAV = [['map', 'Map'], ['sort', 'Sorting Hall'], ['bsearch', 'Binary Vault'], ['keep', 'The Keep'], ['crypt', 'Root Crypt'], ['maze', 'Labyrinth'], ['hash', 'Hash Forge'], ['daily', 'Daily'], ['quiz', 'Quiz'], ['lab', 'Analytics'], ['tome', 'Tome'], ['ledger', 'Ledger']]
 
 function Shell() {
   const { S, view, go } = useProgress()
+  const { profile } = useAccount()
   const View = VIEWS[view]
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -38,6 +42,10 @@ function Shell() {
           <h1>Dungeon of Data</h1>
           <small>Defend the keep by thinking like an algorithm</small>
         </div>
+        <button className={`who ${view === 'account' ? 'on' : ''}`} onClick={() => go('account')} aria-label={`Account: ${profile.name}`}>
+          <Avatar p={profile} size={28} />
+          <span>{profile.name}</span>
+        </button>
         <div className="rank">
           <div className="rt"><b>{cur[1]}</b><span>{nx ? `${S.xp} / ${nx[0]} XP` : `${S.xp} XP · max rank`}</span></div>
           <div className="meter"><i style={{ width: `${pct}%` }} /></div>
@@ -57,8 +65,8 @@ function Shell() {
 
 export default function App() {
   return (
-    <ProgressProvider>
+    <AccountProvider>
       <Shell />
-    </ProgressProvider>
+    </AccountProvider>
   )
 }

@@ -3,7 +3,9 @@ import { DIFFS, ROOMS } from './lib/rooms'
 import { ACHIEVEMENTS } from './lib/achievements'
 import { dayKey, prevDay } from './lib/util'
 
-const KEY = 'dungeon-of-data-react-v1'
+export const LEGACY_KEY = 'dungeon-of-data-react-v1'
+// Each local profile keeps its own progress under its own key.
+export const progressKey = (id) => `${LEGACY_KEY}:${id}`
 const blank = () => ({
   xp: 0,
   rooms: Object.fromEntries(ROOMS.map((r) => [r.id, { stars: 0, tries: 0, wins: 0, ok: 0, bad: 0 }])),
@@ -13,6 +15,7 @@ const blank = () => ({
   daily: { date: '', done: false },
   ach: {},
   quiz: { taken: 0, correct: 0, perfect: 0 },
+  activity: {},
 })
 
 // Merge saved data over a blank state so older saves gain the newer fields. Returns null if it is not save data.
@@ -33,17 +36,26 @@ export function normalize(d) {
     daily: { ...b.daily, ...(d.daily || {}) },
     ach: d.ach && typeof d.ach === 'object' ? d.ach : {},
     quiz: { ...b.quiz, ...(d.quiz || {}) },
+    activity: d.activity && typeof d.activity === 'object' ? d.activity : {},
   }
 }
 
-function load() {
+function load(key) {
   try {
-    const n = normalize(JSON.parse(localStorage.getItem(KEY)))
+    const n = normalize(JSON.parse(localStorage.getItem(key)))
     if (n) return n
   } catch (e) {
     /* storage can be unavailable; start fresh */
   }
   return blank()
+}
+
+// Per-day tally of rounds/quizzes played and XP earned, kept for the Analytics charts (last ~200 days).
+const bumpAct = (act, day, gain) => {
+  const a = { ...act, [day]: { n: ((act[day] && act[day].n) || 0) + 1, xp: ((act[day] && act[day].xp) || 0) + gain } }
+  const keys = Object.keys(a).sort()
+  keys.slice(0, Math.max(0, keys.length - 200)).forEach((k) => delete a[k])
+  return a
 }
 
 // The streak only counts if the last cleared day is today or yesterday.
@@ -53,9 +65,10 @@ const Ctx = createContext(null)
 export const DailyFlag = createContext(false)
 export const useProgress = () => useContext(Ctx)
 
-export function ProgressProvider({ children }) {
+export function ProgressProvider({ children, profileId }) {
+  const KEY = progressKey(profileId)
   const ref = useRef(null)
-  if (!ref.current) ref.current = load()
+  if (!ref.current) ref.current = load(KEY)
   const [S, setS] = useState(ref.current)
   const [view, setView] = useState('map')
   const [toasts, setToasts] = useState([])
@@ -66,7 +79,7 @@ export function ProgressProvider({ children }) {
     } catch (e) {
       /* ignore */
     }
-  }, [S])
+  }, [S, KEY])
 
   const toast = (text) => {
     const id = Math.random()
@@ -114,6 +127,7 @@ export function ProgressProvider({ children }) {
         xp: s.xp + gain,
         streak,
         daily,
+        activity: bumpAct(s.activity, today, gain),
         rooms: {
           ...s.rooms,
           [id]: { ...r, tries: r.tries + 1, wins: r.wins + (win ? 1 : 0), ok: r.ok + ok, bad: r.bad + bad, stars: win ? Math.max(r.stars, stars) : r.stars },
@@ -138,7 +152,7 @@ export function ProgressProvider({ children }) {
       if (r) rooms[a.room] = { ...r, ok: r.ok + (a.ok ? 1 : 0), bad: r.bad + (a.ok ? 0 : 1) }
     })
     commit(
-      { ...s, xp: s.xp + gain, rooms, quiz: { taken: s.quiz.taken + 1, correct: s.quiz.correct + correct, perfect: s.quiz.perfect + (total && correct === total ? 1 : 0) } },
+      { ...s, xp: s.xp + gain, rooms, activity: bumpAct(s.activity, dayKey(), gain), quiz: { taken: s.quiz.taken + 1, correct: s.quiz.correct + correct, perfect: s.quiz.perfect + (total && correct === total ? 1 : 0) } },
       { quiz: { correct, total } }
     )
     return gain
