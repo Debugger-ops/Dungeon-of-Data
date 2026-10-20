@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { DIFFS, ROOMS } from './lib/rooms'
 import { ACHIEVEMENTS } from './lib/achievements'
 import { dayKey, prevDay } from './lib/util'
+import { sfx } from './lib/sfx'
 
 export const LEGACY_KEY = 'dungeon-of-data-react-v1'
 // Each local profile keeps its own progress under its own key.
@@ -101,6 +102,7 @@ export function ProgressProvider({ children, profileId }) {
     ref.current = next
     setS(next)
     notes.forEach(toast)
+    if (notes.some((n) => n.startsWith('Achievement'))) setTimeout(() => sfx('badge'), 400)
   }
 
   // Record a finished round. Returns the XP gained so the result card can show it.

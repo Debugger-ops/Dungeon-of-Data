@@ -5,6 +5,7 @@ export const ROOMS = [
   { id: 'crypt', name: 'Root Crypt', sub: 'Binary search trees, traversals and min-heaps' },
   { id: 'maze', name: 'Graph Labyrinth', sub: 'Graphs: BFS, DFS and Dijkstra shortest paths' },
   { id: 'hash', name: 'Hash Forge', sub: 'Hash tables: buckets, collisions, chaining and linear probing' },
+  { id: 'dp', name: 'DP Dungeon', sub: 'Dynamic programming: fill the table for coin change, LCS and knapsack' },
 ]
 // Difficulty: life = extra goblin-lane tiles, xp = multiplier on round XP.
 export const DIFFS = {

@@ -3,6 +3,7 @@ import { useProgress } from './progress'
 import { BANK_SIZE, QUIZ_LEN, buildQuiz, roomWeights } from './lib/quiz'
 import { ROOMS } from './lib/rooms'
 import { HBars } from './components/Charts'
+import { sfx } from './lib/sfx'
 
 const nameOf = (id) => ROOMS.find((r) => r.id === id).name
 
@@ -91,6 +92,7 @@ export default function Quiz() {
   const answered = chosen !== null
   const pick = (k) => {
     if (answered) return
+    sfx(k === q.answer ? 'hit' : 'miss')
     setChosen(k)
   }
   const next = () => {

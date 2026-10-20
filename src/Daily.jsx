@@ -8,8 +8,9 @@ import TheKeep from './rooms/TheKeep'
 import RootCrypt from './rooms/RootCrypt'
 import GraphLabyrinth from './rooms/GraphLabyrinth'
 import HashForge from './rooms/HashForge'
+import DPDungeon from './rooms/DPDungeon'
 
-const COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge }
+const COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, dp: DPDungeon }
 
 export const dailyRoom = (day = dayKey()) => ROOMS[hashStr(day) % ROOMS.length]
 

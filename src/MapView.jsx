@@ -10,6 +10,7 @@ const ICONS = {
   keep: (<><rect x="8" y="42" width="40" height="14" /><rect x="8" y="26" width="40" height="14" /><rect x="8" y="10" width="40" height="14" /><rect x="62" y="30" width="16" height="16" /><rect x="82" y="30" width="16" height="16" /><rect x="102" y="30" width="16" height="16" /></>),
   crypt: (<><circle cx="60" cy="14" r="8" /><circle cx="34" cy="36" r="8" /><circle cx="86" cy="36" r="8" /><circle cx="20" cy="56" r="7" /><circle cx="48" cy="56" r="7" /><circle cx="100" cy="56" r="7" /></>),
   hash: (<><rect x="6" y="8" width="22" height="12" /><rect x="6" y="26" width="22" height="12" /><rect x="6" y="44" width="22" height="12" /><rect x="36" y="8" width="16" height="12" /><rect x="58" y="8" width="16" height="12" /><rect x="36" y="44" width="16" height="12" style={{ fill: 'var(--torch)' }} /></>),
+  dp: (<><rect x="8" y="10" width="20" height="14" /><rect x="32" y="10" width="20" height="14" /><rect x="56" y="10" width="20" height="14" style={{ fill: 'var(--torch)' }} /><rect x="8" y="30" width="20" height="14" /><rect x="32" y="30" width="20" height="14" /><rect x="56" y="30" width="20" height="14" /><rect x="8" y="50" width="20" height="10" /><rect x="32" y="50" width="20" height="10" /></>),
   maze: (<><circle cx="16" cy="32" r="8" /><circle cx="52" cy="12" r="8" /><circle cx="52" cy="52" r="8" /><circle cx="92" cy="32" r="8" /><circle cx="116" cy="12" r="6" /></>),
 }
 

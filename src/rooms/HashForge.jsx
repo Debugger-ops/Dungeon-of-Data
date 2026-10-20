@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import Room from '../components/Room'
 import Lane from '../components/Lane'
 import Result from '../components/Result'
+import HintButton from '../components/HintButton'
 import { useRound } from '../hooks'
 import { starsBad, uniq } from '../lib/util'
 
@@ -31,7 +32,7 @@ function Chain({ again }) {
   const [i, setI] = useState(0)
   const [table, setTable] = useState(() => Array.from({ length: M }, () => []))
   const [bad, setBad] = useState(0)
-  const { lane, laneSet, msg, say, end, over, finish } = useRound('hash', keys.length, 4, `h(k) = k mod ${M}. Tap the bucket where ${keys[0]} belongs.`)
+  const { lane, laneSet, msg, say, hint, end, over, finish } = useRound('hash', keys.length, 4, `h(k) = k mod ${M}. Tap the bucket where ${keys[0]} belongs.`)
   const lesson = 'With chaining a bucket holds a list, so collisions just make that list longer. Average chain length is the load factor n / m, so lookups cost O(1 + n/m). If every key collides the table decays to one O(n) list.'
 
   const pick = (b) => {
@@ -70,6 +71,9 @@ function Chain({ again }) {
           </div>
         </div>
         <div className={`msg ${msg.c}`} style={{ margin: '8px 0' }}>{msg.t}</div>
+        <div className="row" style={{ margin: '4px 0 8px' }}>
+          <HintButton disabled={over || i >= keys.length} onHint={() => hint(`${keys[i]} = ${Math.floor(keys[i] / M)} x ${M} + ?. The remainder is the bucket.`)} />
+        </div>
         <div className="buckets">
           {table.map((c, b) => (
             <button key={b} className={`bucket ${over ? '' : 'can'}`} onClick={() => pick(b)} aria-label={`Bucket ${b}`}>
@@ -109,7 +113,7 @@ function Probe({ again }) {
   const [table, setTable] = useState(() => Array(M).fill(null))
   const [probes, setProbes] = useState(0)
   const [bad, setBad] = useState(0)
-  const { lane, laneSet, msg, say, end, over, finish } = useRound('hash', keys.length, 4, `h(k) = k mod ${M}. Tap the slot where ${keys[0]} ends up after probing.`)
+  const { lane, laneSet, msg, say, hint, end, over, finish } = useRound('hash', keys.length, 4, `h(k) = k mod ${M}. Tap the slot where ${keys[0]} ends up after probing.`)
   const lesson = 'Linear probing stores everything in one array and walks to the next free slot. Runs of full slots grow and swallow more keys (primary clustering), so keep the load factor below about 0.7 and resize. A delete needs a tombstone so later probes do not stop early.'
 
   const slotFor = (k, t) => {
@@ -163,6 +167,9 @@ function Probe({ again }) {
           </div>
         </div>
         <div className={`msg ${msg.c}`} style={{ margin: '8px 0' }}>{msg.t}</div>
+        <div className="row" style={{ margin: '4px 0 8px' }}>
+          <HintButton disabled={over || i >= keys.length} onHint={() => hint(`${keys[i]} mod ${M} = ${keys[i] % M} is the home slot. If it is taken, move right one slot at a time (after ${M - 1} comes 0).`)} />
+        </div>
         <div className="slots">
           {table.map((v, s) => (
             <button key={s} className={`slot ${v !== null ? 'full' : ''} ${over ? '' : 'can'}`} onClick={() => pick(s)} aria-label={`Slot ${s}`}>

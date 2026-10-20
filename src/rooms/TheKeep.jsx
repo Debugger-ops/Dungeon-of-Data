@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import Room from '../components/Room'
 import Lane from '../components/Lane'
 import Result from '../components/Result'
+import HintButton from '../components/HintButton'
 import { useRound } from '../hooks'
 import { rand, rnd, shuffle, starsBad } from '../lib/util'
 
@@ -55,7 +56,7 @@ function StackQueue({ kind, setKind, again }) {
   const qn = isStack ? 'pop' : 'dequeue'
   const ops = useMemo(makeOps, [])
   const pops = ops.filter((o) => o.t === 'pop').length
-  const { lane, laneSet, msg, say, end, over, finish } = useRound('keep', pops, 4, 'Press Run pushes to execute the script until the next removal.')
+  const { lane, laneSet, msg, say, hint, end, over, finish } = useRound('keep', pops, 4, 'Press Run pushes to execute the script until the next removal.')
   const [pc, setPc] = useState(0)
   const [struct, setStruct] = useState([])
   const [bad, setBad] = useState(0)
@@ -128,6 +129,7 @@ function StackQueue({ kind, setKind, again }) {
           </div>
           <div className="tag">{isStack ? 'bottom' : 'back (enqueue here)'}</div>
           <div className={`msg ${msg.c}`} style={{ marginTop: 8 }}>{msg.t}</div>
+          <div style={{ marginTop: 6 }}><HintButton disabled={over || !nextPop} onHint={() => hint(isStack ? 'A stack is LIFO: the item pushed most recently, at the top, leaves first.' : 'A queue is FIFO: the item that has waited longest, at the front, leaves first.')} /></div>
         </div>
       </div>
       <Result end={end} onAgain={again} />

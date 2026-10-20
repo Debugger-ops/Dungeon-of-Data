@@ -46,6 +46,13 @@ const BANK = [
   ['hash', 'Separate chaining resolves a collision by:', 'Storing colliding keys in a list at that bucket', ['Overwriting the old key', 'Probing the next free slot', 'Rehashing the whole table'], 'Each bucket holds a small list, so the table can hold more items than buckets.'],
   ['hash', 'Why do hash tables usually double their size when the load factor gets high?', 'To keep chains or probe runs short', ['To sort the keys', 'To remove duplicates', 'To reduce memory'], 'Growing and rehashing is O(n) occasionally but amortizes to O(1) per insert.'],
   ['hash', 'Why can you not just empty a slot when deleting from a linear-probing table?', 'It could break the probe path of other keys', ['It frees too much memory', 'Hash functions forbid it', 'Deletes are not supported'], 'A later key may have probed past that slot. A tombstone marker keeps lookups correct.'],
+  ['dp', 'What are the two properties that make a problem suited to dynamic programming?', 'Overlapping subproblems and optimal substructure', ['Sorted input and random access', 'A tree shape and unique keys', 'Small input size and no recursion'], 'Optimal substructure lets you build the answer from sub-answers, and overlap means the same sub-answers are needed repeatedly, so storing them pays off.'],
+  ['dp', 'Memoization differs from tabulation in that memoization is:', 'Top-down: recursion that caches results', ['Bottom-up: filling a table in order', 'Always faster', 'Only for graphs'], 'Memoization starts from the big problem and caches sub-results as it recurses. Tabulation fills the table from the base cases up.'],
+  ['dp', 'Naive recursive Fibonacci takes exponential time. With memoization it takes:', 'O(n)', ['O(log n)', 'O(n²)', 'O(1)'], 'Each of the n distinct subproblems is computed once and then looked up.'],
+  ['dp', 'Fewest coins for amount 6 with coins {1, 3, 4} is:', '2', ['3', '1', '6'], 'Use 3 + 3. Greedy would take 4 + 1 + 1 = 3 coins, which is why greedy fails here.'],
+  ['dp', 'The longest common subsequence table for strings of length n and m has what time cost to fill?', 'O(n x m)', ['O(n + m)', 'O(n log m)', 'O(2^n)'], 'There are (n+1)(m+1) cells and each takes constant time from its neighbours.'],
+  ['dp', 'In 0/1 knapsack, "0/1" means:', 'Each item is taken whole or not at all', ['Items have weight 0 or 1', 'The value is 0 or 1', 'The capacity is 0 or 1'], 'You cannot split an item, so each cell compares skipping versus taking it.'],
+  ['dp', 'In an LCS table, when the two current characters match, dp[i][j] equals:', 'dp[i-1][j-1] + 1', ['max(dp[i-1][j], dp[i][j-1])', 'dp[i-1][j] + dp[i][j-1]', '0'], 'A matching pair extends the best subsequence of both shorter prefixes by one.'],
 ]
 
 export const QUIZ_LEN = 6

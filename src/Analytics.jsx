@@ -5,7 +5,7 @@ import { dayKey } from './lib/util'
 import { SIZES, SORT_NAMES, bstHeights, sortCounts } from './lib/bench'
 import { AreaLine, Curves, Empty, Heatmap, LogLog, Radar, RollingLine, StackBars } from './components/Viz'
 
-const SHORT = { sort: 'Sorting', bsearch: 'Vault', keep: 'Keep', crypt: 'Crypt', maze: 'Labyrinth', hash: 'Forge' }
+const SHORT = { sort: 'Sorting', bsearch: 'Vault', keep: 'Keep', crypt: 'Crypt', maze: 'Labyrinth', hash: 'Forge', dp: 'DP' }
 const SORT_COLORS = { bubble: 'var(--bad)', selection: 'var(--vio)', insertion: 'var(--torch)', merge: 'var(--ok)', quick: 'var(--arc)' }
 const WEEKS = 16
 

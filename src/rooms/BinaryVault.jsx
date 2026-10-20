@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Room from '../components/Room'
 import Lane from '../components/Lane'
 import Result from '../components/Result'
+import HintButton from '../components/HintButton'
 import { Legend } from '../components/Charts'
 import { useRound } from '../hooks'
 import { rand, uniq } from '../lib/util'
@@ -31,7 +32,7 @@ function Vault({ size, setSize, again }) {
   const [marks, setMarks] = useState({})
   const [found, setFound] = useState(null)
   const [shake, setShake] = useState(null)
-  const { lane, laneSet, msg, say, end, over, finish } = useRound('bsearch', Math.min(size, 8), maxd, 'Tap a tile to open it. Each guess tells you only "too low" or "too high". Every guess lets the goblins step closer.')
+  const { lane, laneSet, msg, say, hint, end, over, finish } = useRound('bsearch', Math.min(size, 8), maxd, 'Tap a tile to open it. Each guess tells you only "too low" or "too high". Every guess lets the goblins step closer.')
 
   useEffect(() => {
     if (shake === null) return
@@ -87,6 +88,9 @@ function Vault({ size, setSize, again }) {
           <span>Perfect play: at most <b>{lg + 1}</b></span>
         </div>
         <div className={`msg ${msg.c}`}>{msg.t}</div>
+        <div className="row" style={{ marginTop: 6 }}>
+          <HintButton disabled={over || found !== null} onHint={() => hint(`${Math.max(hi - lo + 1, 0)} spots are left, from index ${lo} to ${hi}. Open the middle one, index ${Math.floor((lo + hi) / 2)}.`)} />
+        </div>
         <div className="tiles" style={{ marginTop: 10 }}>
           {vals.map((v, i) => (
             <button key={v} className={`tile ${i < lo || i > hi ? 'out' : ''} ${found === i ? 'found' : ''} ${shake === i ? 'shake' : ''}`} onClick={() => guess(i)}>
