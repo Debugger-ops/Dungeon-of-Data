@@ -9,8 +9,17 @@ import RootCrypt from './rooms/RootCrypt'
 import GraphLabyrinth from './rooms/GraphLabyrinth'
 import HashForge from './rooms/HashForge'
 import DPDungeon from './rooms/DPDungeon'
+import ScribeTower from './rooms/ScribeTower'
+import LinkedListLab from './rooms/LinkedListLab'
+import BitBunker from './rooms/BitBunker'
+import BigOBlitz from './rooms/BigOBlitz'
+import PatternMatch from './rooms/PatternMatch'
+import MemoryMatch from './rooms/MemoryMatch'
+import StackDefender from './rooms/StackDefender'
+import BugHunt from './rooms/BugHunt'
+import GraphBuilder from './rooms/GraphBuilder'
 
-const COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, dp: DPDungeon }
+export const ROOM_COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, dp: DPDungeon, type: ScribeTower, list: LinkedListLab, bits: BitBunker, bigo: BigOBlitz, window: PatternMatch, memory: MemoryMatch, stackdef: StackDefender, bug: BugHunt, graphb: GraphBuilder }
 
 export const dailyRoom = (day = dayKey()) => ROOMS[hashStr(day) % ROOMS.length]
 
@@ -19,7 +28,7 @@ export default function Daily() {
   const { S, go } = useProgress()
   const today = dayKey()
   const room = dailyRoom(today)
-  const View = COMPONENTS[room.id]
+  const View = ROOM_COMPONENTS[room.id]
   const done = S.daily.date === today && S.daily.done
   const streak = liveStreak(S)
 

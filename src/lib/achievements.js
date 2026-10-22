@@ -1,4 +1,5 @@
 import { ROOMS } from './rooms'
+import { LEVELS, clearedCount } from './campaign'
 
 const sum = (s, k) => ROOMS.reduce((a, r) => a + s.rooms[r.id][k], 0)
 
@@ -16,5 +17,9 @@ export const ACHIEVEMENTS = [
   { id: 'streak3', name: 'On a Roll', desc: 'Clear the daily challenge 3 days in a row', test: (s) => s.streak.count >= 3 },
   { id: 'streak7', name: 'Week of Fire', desc: 'Clear the daily challenge 7 days in a row', test: (s) => s.streak.count >= 7 },
   { id: 'quizwhiz', name: 'Quiz Whiz', desc: 'Answer every question right in a quiz', test: (s, e) => !!e.quiz && e.quiz.total > 0 && e.quiz.correct === e.quiz.total },
+  { id: 'wpm40', name: 'Speed Scribe', desc: 'Finish a Scribe Tower typing round at 40 WPM or more', test: (s) => s.best.wpm >= 40 },
+  { id: 'rush', name: 'Rush Master', desc: 'Clear all three rooms of a Boss Rush', test: (s, e) => !!e.rush },
+  { id: 'lvl5', name: 'Pathfinder', desc: 'Clear 5 campaign levels', test: (s) => clearedCount(s.campaign.stars) >= 5 },
+  { id: 'lvl20', name: 'Campaign Complete', desc: 'Clear every campaign level', test: (s) => clearedCount(s.campaign.stars) >= LEVELS.length },
   { id: 'scholar', name: 'Scholar', desc: 'Finish 5 quizzes', test: (s) => s.quiz.taken >= 5 },
 ]

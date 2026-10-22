@@ -86,7 +86,7 @@ export default function Tome() {
       </div>
       <div className="card">
         <h3>Cost at this n</h3>
-        <div className="scroll">
+        <div className="scroll" tabIndex={0}>
           <table>
             <thead><tr><th>Growth</th><th className="num">Operations</th><th className="num">Time at 10⁹ ops/s</th><th>Typical example</th></tr></thead>
             <tbody>
@@ -117,7 +117,7 @@ export default function Tome() {
       <div className="grid2">
         <div className="card">
           <h3>Data structures</h3>
-          <div className="scroll">
+          <div className="scroll" tabIndex={0}>
             <table>
               <thead><tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th></tr></thead>
               <tbody>
@@ -138,7 +138,7 @@ export default function Tome() {
         </div>
         <div className="card">
           <h3>Sorting</h3>
-          <div className="scroll">
+          <div className="scroll" tabIndex={0}>
             <table>
               <thead><tr><th>Sort</th><th>Best</th><th>Avg</th><th>Worst</th><th>Space</th><th>Stable</th></tr></thead>
               <tbody>
@@ -153,7 +153,7 @@ export default function Tome() {
       </div>
       <div className="card">
         <h3>Graph algorithms</h3>
-        <div className="scroll">
+        <div className="scroll" tabIndex={0}>
           <table>
             <thead><tr><th>Algorithm</th><th>Time</th><th>Space</th><th>Use</th></tr></thead>
             <tbody>
@@ -172,7 +172,7 @@ export default function Tome() {
       </div>
       <div className="card">
         <h3>Hash table collision strategies</h3>
-        <div className="scroll">
+        <div className="scroll" tabIndex={0}>
           <table>
             <thead><tr><th>Strategy</th><th>Lookup (avg)</th><th>Lookup (worst)</th><th>Notes</th></tr></thead>
             <tbody>

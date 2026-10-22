@@ -17,3 +17,13 @@ if ('serviceWorker' in navigator && import.meta.env.PROD && !navigator.webdriver
     })
   })
 }
+
+// Optional privacy-friendly analytics (GoatCounter: no cookies, no personal data). Production builds only.
+const gc = import.meta.env.VITE_GOATCOUNTER
+if (gc && import.meta.env.PROD && !navigator.webdriver && navigator.doNotTrack !== '1') {
+  const el = document.createElement('script')
+  el.async = true
+  el.src = 'https://gc.zgo.at/count.js'
+  el.dataset.goatcounter = `https://${gc}.goatcounter.com/count`
+  document.head.appendChild(el)
+}

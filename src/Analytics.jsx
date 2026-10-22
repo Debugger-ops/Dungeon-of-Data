@@ -5,7 +5,7 @@ import { dayKey } from './lib/util'
 import { SIZES, SORT_NAMES, bstHeights, sortCounts } from './lib/bench'
 import { AreaLine, Curves, Empty, Heatmap, LogLog, Radar, RollingLine, StackBars } from './components/Viz'
 
-const SHORT = { sort: 'Sorting', bsearch: 'Vault', keep: 'Keep', crypt: 'Crypt', maze: 'Labyrinth', hash: 'Forge', dp: 'DP' }
+const SHORT = { sort: 'Sorting', bsearch: 'Vault', keep: 'Keep', crypt: 'Crypt', maze: 'Labyrinth', hash: 'Forge', dp: 'DP', type: 'Scribe', list: 'Linked List', bits: 'Bits', bigo: 'Big-O', window: 'Patterns', memory: 'Memory', stackdef: 'Stack', bug: 'Bugs', graphb: 'Builder' }
 const SORT_COLORS = { bubble: 'var(--bad)', selection: 'var(--vio)', insertion: 'var(--torch)', merge: 'var(--ok)', quick: 'var(--arc)' }
 const WEEKS = 16
 
@@ -146,7 +146,7 @@ function Progress({ D, empty, demo }) {
       <div className="card">
         <h3>Activity, last {WEEKS} weeks</h3>
         <p className="lede" style={{ margin: '4px 0 8px' }}>Rounds and quizzes finished per day.</p>
-        <div className="scroll"><Heatmap cells={cells} weeks={WEEKS} /></div>
+        <div className="scroll" tabIndex={0}><Heatmap cells={cells} weeks={WEEKS} /></div>
       </div>
       <div className="card">
         <h3>Accuracy trend</h3>
@@ -216,7 +216,7 @@ function Lab() {
         </div>
         <Curves curves={curves} marker={a} />
         <div className="legend" style={{ marginTop: 6 }}>{curves.map((c) => <span key={c.name}><i style={{ background: c.color }} />{c.name}</span>)}</div>
-        <div className="scroll" style={{ marginTop: 10 }}>
+        <div className="scroll" tabIndex={0} style={{ marginTop: 10 }}>
           <table>
             <thead><tr><th>At α = {a.toFixed(2)}</th><th className="num">Expected probes</th></tr></thead>
             <tbody>

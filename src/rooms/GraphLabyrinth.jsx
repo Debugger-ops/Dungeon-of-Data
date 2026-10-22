@@ -101,7 +101,7 @@ function Maze({ mode, again }) {
           ) : (
             <>
               <h3>Distance table</h3>
-              <div className="scroll">
+              <div className="scroll" tabIndex={0}>
                 <table style={{ marginTop: 6 }}>
                   <thead><tr><th>Node</th><th className="num">dist</th><th>via</th><th>state</th></tr></thead>
                   <tbody>

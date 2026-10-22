@@ -26,26 +26,15 @@ npm run build    # static site in dist/
 | `src/lib/achievements.js` | 13 achievements, checked after every round and quiz |
 | `src/Tome.jsx`, `src/Ledger.jsx` | Big-O chart and tables, progress charts |
 
-## Scripts
+## Games, modes and levels
 
-| Command | What it does |
-|---|---|
-| `npm run dev` | Dev server |
-| `npm run build` | Production build in `dist/` (includes the offline service worker) |
-| `npm test` | Unit tests (Vitest) |
-| `npm run test:e2e` | Browser tests (Playwright). First time: `npx playwright install chromium` |
-| `npm run test:all` | Both |
-
-## Deploy
-
-`.github/workflows/ci.yml` runs the unit and browser tests on every push and pull request. On pushes to `main` it then publishes `dist/` to GitHub Pages. One-time setup: in the repo go to Settings > Pages and set Source to "GitHub Actions". The site appears at `https://<your-username>.github.io/<repo>/`.
+- 16 rooms: Hash Forge, Sorting Gym, Binary Search, Crypt (BST/traversal/heap), Maze (BFS/Dijkstra), Stack/Queue, DP Dungeon, Scribe Tower, plus Linked List Lab, Bit Bunker, Big-O Blitz, Pattern Match, Memory Match, Stack Defender, Bug Hunt and Graph Builder.
+- **Campaign**: 4 worlds x 5 levels. Each level is a fixed puzzle (same on retry), unlocks the next, and saves 1-3 stars with an XP bonus.
+- **Boss Rush**: three random rooms back to back; clear all three for a bonus.
+- **Daily**: one seeded puzzle per day.
+- Responsive from 360px phones up; tested for overflow and tap targets.
 
 ## Features added
-
-- **DP Dungeon** room: fill the table for coin change, longest common subsequence and 0/1 knapsack.
-- **Settings**: dark / light / match-system theme, larger text, sound effects with volume. Hint buttons (Hash Forge, Binary Vault, The Keep, DP Dungeon) cap that round at 2 stars.
-- **Installable and offline**: web app manifest, icons and a service worker (production build only).
-- **Tests**: Vitest unit tests for the algorithm, DP, quiz, progress and profile logic; Playwright tests for the main flows.
 
 - **Hash Forge** room: chaining and linear probing. **Root Crypt** gains a heap extract-min (sift down) mode.
 - **Difficulty** (map screen): Easy +2 lives and half XP, Normal, Hard 1 fewer life and 1.5x XP.

@@ -6,6 +6,15 @@ export const ROOMS = [
   { id: 'maze', name: 'Graph Labyrinth', sub: 'Graphs: BFS, DFS and Dijkstra shortest paths' },
   { id: 'hash', name: 'Hash Forge', sub: 'Hash tables: buckets, collisions, chaining and linear probing' },
   { id: 'dp', name: 'DP Dungeon', sub: 'Dynamic programming: fill the table for coin change, LCS and knapsack' },
+  { id: 'type', name: 'Scribe Tower', sub: 'Type real algorithms, or write the function and pass the tests' },
+  { id: 'list', name: 'Linked List Lab', sub: 'Linked lists: reverse, delete and insert by rewiring pointers' },
+  { id: 'bits', name: 'Bit Bunker', sub: 'Bit manipulation: AND, OR, XOR, shifts and one-line tricks' },
+  { id: 'bigo', name: 'Big-O Blitz', sub: 'Timed arcade: name the complexity of each snippet before the clock runs out' },
+  { id: 'window', name: 'Pattern Match', sub: 'Two pointers and sliding windows: one pass instead of brute force' },
+  { id: 'memory', name: 'Memory Match', sub: 'Card flip: match each structure or algorithm with its signature trait' },
+  { id: 'stackdef', name: 'Stack Defender', sub: 'Stacks in action: bracket matching and postfix evaluation' },
+  { id: 'bug', name: 'Bug Hunt', sub: 'Spot the one buggy line in short functions: off-by-ones, flipped checks' },
+  { id: 'graphb', name: 'Graph Builder', sub: 'Weighted graphs: build Dijkstra shortest paths and Kruskal spanning trees' },
 ]
 // Difficulty: life = extra goblin-lane tiles, xp = multiplier on round XP.
 export const DIFFS = {

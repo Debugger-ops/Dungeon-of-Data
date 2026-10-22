@@ -1,5 +1,6 @@
 import { useContext, useRef, useState } from 'react'
 import { DailyFlag, useProgress } from './progress'
+import { LevelFlag } from './level'
 import { DIFFS } from './lib/rooms'
 import { sfx } from './lib/sfx'
 
@@ -8,8 +9,9 @@ import { sfx } from './lib/sfx'
 export function useRound(room, total, baseMax, intro = '') {
   const { award } = useProgress()
   const daily = useContext(DailyFlag)
+  const lv = useContext(LevelFlag)
   const { S } = useProgress()
-  const max = Math.max(2, baseMax + DIFFS[daily ? 'normal' : S.difficulty].life)
+  const max = Math.max(2, baseMax + DIFFS[lv ? lv.level.diff : daily ? 'normal' : S.difficulty].life)
   const [lane, setLane] = useState({ dist: max, killed: 0, hit: 0 })
   const [end, setEnd] = useState(null)
   const [msg, setMsg] = useState({ t: intro, c: '' })
@@ -25,12 +27,13 @@ export function useRound(room, total, baseMax, intro = '') {
     hinted.current = true
     setMsg({ t: `Hint: ${text}`, c: 'hint' })
   }
-  const finish = (win, stars, text, ok, bad) => {
+  const finish = (win, stars, text, ok, bad, extra = {}) => {
     const st = win && hinted.current ? Math.min(stars, 2) : stars
     const note = win && hinted.current && stars > 2 ? `${text} (Hint used, so this round is capped at 2 stars.)` : text
     sfx(win ? 'win' : 'lose')
-    const gain = award(room, win, st, ok, bad, { daily })
-    setEnd({ win, stars: st, text: note, gain })
+    let gain = award(room, win, st, ok, bad, { daily, diff: lv ? lv.level.diff : undefined, ...extra })
+    if (lv && win) gain += lv.record(st)
+    setEnd({ win, stars: st, text: note, gain, room, daily })
   }
 
   return { lane: { total, max, ...lane }, laneSet, msg, say, hint, hinted: hinted.current, end, over: !!end, finish }

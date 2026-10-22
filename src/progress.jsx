@@ -13,7 +13,9 @@ const blank = () => ({
   hist: [],
   difficulty: 'normal',
   streak: { count: 0, best: 0, last: '' },
-  daily: { date: '', done: false },
+  daily: { date: '', done: false, stars: 0, room: '' },
+  best: { wpm: 0 },
+  campaign: { stars: {} },
   ach: {},
   quiz: { taken: 0, correct: 0, perfect: 0 },
   activity: {},
@@ -35,6 +37,8 @@ export function normalize(d) {
     difficulty: DIFFS[d.difficulty] ? d.difficulty : 'normal',
     streak: { ...b.streak, ...(d.streak || {}) },
     daily: { ...b.daily, ...(d.daily || {}) },
+    best: { ...b.best, ...(d.best || {}) },
+    campaign: { stars: d.campaign && d.campaign.stars && typeof d.campaign.stars === 'object' ? d.campaign.stars : {} },
     ach: d.ach && typeof d.ach === 'object' ? d.ach : {},
     quiz: { ...b.quiz, ...(d.quiz || {}) },
     activity: d.activity && typeof d.activity === 'object' ? d.activity : {},
@@ -108,7 +112,7 @@ export function ProgressProvider({ children, profileId }) {
   // Record a finished round. Returns the XP gained so the result card can show it.
   const award = (id, win, stars, ok, bad, opts = {}) => {
     const s = ref.current
-    const diff = opts.daily ? 'normal' : s.difficulty
+    const diff = opts.daily ? 'normal' : opts.diff && DIFFS[opts.diff] ? opts.diff : s.difficulty
     let gain = win ? Math.round((10 + stars * 15) * DIFFS[diff].xp) : 0
     const today = dayKey()
     const notes = []
@@ -119,7 +123,7 @@ export function ProgressProvider({ children, profileId }) {
       streak = { count, best: Math.max(s.streak.best, count), last: today }
       const bonus = 25 + Math.min(count, 7) * 5
       gain += bonus
-      daily = { date: today, done: true }
+      daily = { date: today, done: true, stars, room: id }
       notes.push(`Daily challenge cleared. Day ${count} streak, +${bonus} XP bonus`)
     }
     const r = s.rooms[id]
@@ -129,6 +133,7 @@ export function ProgressProvider({ children, profileId }) {
         xp: s.xp + gain,
         streak,
         daily,
+        best: opts.wpm > s.best.wpm ? { ...s.best, wpm: Math.min(300, Math.round(opts.wpm)) } : s.best,
         activity: bumpAct(s.activity, today, gain),
         rooms: {
           ...s.rooms,
@@ -136,7 +141,7 @@ export function ProgressProvider({ children, profileId }) {
         },
         hist: [...s.hist, { id, win, stars, acc: ok + bad ? Math.round((100 * ok) / (ok + bad)) : 0 }].slice(-30),
       },
-      { win, bad, diff, daily: !!opts.daily },
+      { win, bad, diff, daily: !!opts.daily, wpm: opts.wpm || 0 },
       notes
     )
     return gain
@@ -160,6 +165,23 @@ export function ProgressProvider({ children, profileId }) {
     return gain
   }
 
+  // A flat XP reward that is not tied to a room (used by Boss Rush).
+  const awardBonus = (gain, ev = {}) => {
+    const s = ref.current
+    commit({ ...s, xp: s.xp + gain, activity: bumpAct(s.activity, dayKey(), gain) }, ev, [`Boss Rush bonus: +${gain} XP`])
+    return gain
+  }
+
+  // Record the best star rating for a campaign level. Returns the bonus XP (first clear 25, +10 per new star).
+  const recordLevel = (id, stars) => {
+    const s = ref.current
+    const old = s.campaign.stars[id] || 0
+    if (stars <= old) return 0
+    const bonus = (old === 0 ? 25 : 0) + 10 * (stars - old)
+    commit({ ...s, xp: s.xp + bonus, campaign: { stars: { ...s.campaign.stars, [id]: stars } } }, { level: id }, [old === 0 ? `Level ${id} cleared: +${bonus} XP bonus` : `Level ${id} improved to ${stars} stars: +${bonus} XP`])
+    return bonus
+  }
+
   const setDifficulty = (d) => {
     if (DIFFS[d]) commit({ ...ref.current, difficulty: d }, {})
   }
@@ -176,9 +198,14 @@ export function ProgressProvider({ children, profileId }) {
     }
   }
   const resetAll = () => commit(blank(), {})
+  // Replace the whole state (used by cloud sync after a merge). Achievements are re-checked.
+  const adopt = (state) => {
+    const n = normalize(state)
+    if (n) commit(n, {})
+  }
 
   return (
-    <Ctx.Provider value={{ S, award, awardQuiz, setDifficulty, exportData, importData, resetAll, view, go: setView }}>
+    <Ctx.Provider value={{ S, award, awardQuiz, awardBonus, recordLevel, setDifficulty, exportData, importData, resetAll, adopt, view, go: setView }}>
       {children}
       <div className="toasts" role="status" aria-live="polite">
         {toasts.map((t) => <div key={t.id} className="toast">{t.text}</div>)}

@@ -62,7 +62,7 @@ function DPPlay({ kind, again }) {
         <div className="statrow" style={{ margin: '6px 0 10px' }}>
           <span className="mono">{puz.formula}</span>
         </div>
-        <div className="scroll">
+        <div className="scroll" tabIndex={0}>
           <table className="dpgrid" aria-label="Dynamic programming table">
             <thead>
               <tr>

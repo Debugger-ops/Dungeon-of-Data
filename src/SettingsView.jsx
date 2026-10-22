@@ -39,6 +39,10 @@ export default function SettingsView() {
         <h3>Hints</h3>
         <p className="fine">Rooms with a Hint button explain the next step. Using a hint in a round caps that round at 2 stars, so the stars still mean you worked it out yourself.</p>
       </div>
+      <div className="card formcard">
+        <h3>Privacy</h3>
+        <p className="fine">Your progress is stored in this browser only. If you choose to sign in and link a profile, the save is stored in the project's database where only you can read it, and your name, colour and scores go on the public leaderboard unless you hide them in Account. You can delete all cloud data there at any time. If analytics is enabled on this copy it uses GoatCounter: no cookies, no personal data, and it respects Do Not Track.</p>
+      </div>
     </>
   )
 }

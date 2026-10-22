@@ -208,7 +208,7 @@ function SortWatch() {
           <div className="code" style={{ margin: '8px 0' }}>
             {A.code.map((l, i) => <div key={i} className={i === f.line ? 'on' : ''}>{l}</div>)}
           </div>
-          <div className="scroll">
+          <div className="scroll" tabIndex={0}>
             <table>
               <thead><tr><th>Best</th><th>Avg</th><th>Worst</th><th>Space</th><th>Stable</th></tr></thead>
               <tbody><tr>{A.cx.map((c, i) => <td key={i} className="mono">{c}</td>)}</tr></tbody>

@@ -26,11 +26,15 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: End-to-end tests
         run: npm run test:e2e
+      - name: Cloud end-to-end tests (fake Supabase)
+        run: npm run test:e2e:cloud
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-report
-          path: playwright-report
+          path: |
+            playwright-report
+            playwright-report-cloud
           retention-days: 7
 
   deploy:
@@ -52,6 +56,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+          VITE_GOATCOUNTER: ${{ vars.VITE_GOATCOUNTER }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

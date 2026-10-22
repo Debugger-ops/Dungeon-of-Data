@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Avatar, ColorPick, summary, useAccount } from './accounts'
 import { liveStreak, useProgress } from './progress'
 import { ACHIEVEMENTS } from './lib/achievements'
+import CloudCard from './CloudCard'
 
 export default function AccountView() {
   const A = useAccount()
@@ -93,6 +94,8 @@ export default function AccountView() {
           </div>
         </div>
       </div>
+
+      <CloudCard />
 
       <div className="card">
         <h3>Profiles on this browser</h3>
