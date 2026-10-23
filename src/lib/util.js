@@ -26,6 +26,11 @@ export const prevDay = (key) => {
   const [y, m, d] = key.split('-').map(Number)
   return dayKey(new Date(y, m - 1, d - 1))
 }
+// Monday of the current week as YYYY-MM-DD.
+export const weekKey = (d = new Date()) => {
+  const m = new Date(d.getFullYear(), d.getMonth(), d.getDate() - ((d.getDay() + 6) % 7))
+  return dayKey(m)
+}
 export const shuffle = (a) => {
   a = a.slice()
   for (let i = a.length - 1; i > 0; i--) {

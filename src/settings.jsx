@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { setSfx, sfx } from './lib/sfx'
 
 const KEY = 'dungeon-of-data-settings-v1'
-const DEFAULTS = { theme: 'dark', text: 'normal', sound: true, volume: 0.35 }
+const DEFAULTS = { theme: 'dark', text: 'normal', sound: true, volume: 0.35, lang: 'en', remind: false }
 
 function load() {
   try {
@@ -12,6 +12,8 @@ function load() {
         theme: ['dark', 'light', 'system'].includes(d.theme) ? d.theme : DEFAULTS.theme,
         text: d.text === 'large' ? 'large' : 'normal',
         sound: d.sound !== false,
+        lang: d.lang === 'hi' ? 'hi' : 'en',
+        remind: d.remind === true,
         volume: typeof d.volume === 'number' ? Math.min(1, Math.max(0, d.volume)) : DEFAULTS.volume,
       }
     }
@@ -41,9 +43,10 @@ export function SettingsProvider({ children }) {
   useEffect(() => {
     document.documentElement.dataset.theme = theme
     document.documentElement.dataset.text = s.text
+    document.documentElement.lang = s.lang
     const meta = document.querySelector('meta[name="theme-color"]')
     if (meta) meta.setAttribute('content', theme === 'light' ? '#f4f1ea' : '#0d1418')
-  }, [theme, s.text])
+  }, [theme, s.text, s.lang])
   useEffect(() => {
     setSfx(s.sound, s.volume)
     try {

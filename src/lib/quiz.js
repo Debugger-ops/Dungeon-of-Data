@@ -1,5 +1,5 @@
 import { ROOMS } from './rooms'
-import { shuffle } from './util'
+import { hashStr, shuffle } from './util'
 
 // [room, question, correct answer, three wrong answers, explanation]
 const BANK = [
@@ -53,6 +53,24 @@ const BANK = [
   ['dp', 'The longest common subsequence table for strings of length n and m has what time cost to fill?', 'O(n x m)', ['O(n + m)', 'O(n log m)', 'O(2^n)'], 'There are (n+1)(m+1) cells and each takes constant time from its neighbours.'],
   ['dp', 'In 0/1 knapsack, "0/1" means:', 'Each item is taken whole or not at all', ['Items have weight 0 or 1', 'The value is 0 or 1', 'The capacity is 0 or 1'], 'You cannot split an item, so each cell compares skipping versus taking it.'],
   ['dp', 'In an LCS table, when the two current characters match, dp[i][j] equals:', 'dp[i-1][j-1] + 1', ['max(dp[i-1][j], dp[i][j-1])', 'dp[i-1][j] + dp[i][j-1]', '0'], 'A matching pair extends the best subsequence of both shorter prefixes by one.'],
+  ['trie', 'How many nodes does a trie holding "car", "cat" and "cart" have (not counting the root)?', '5', ['7', '9', '3'], 'c, a, then r, t under a, then t under r: 5 nodes. Shared prefixes are stored once.'],
+  ['trie', 'Looking up a word of length L in a trie takes:', 'O(L)', ['O(n) for n stored words', 'O(log n)', 'O(L²)'], 'You follow one node per letter, no matter how many words are stored.'],
+  ['trie', 'Which feature is a trie naturally good at compared with a hash table?', 'Finding every key with a given prefix', ['Exact-key lookup', 'Counting keys', 'Deleting keys'], 'The prefix leads to one subtree that holds exactly the matching words.'],
+  ['trie', 'Why does a trie mark some nodes as word ends?', 'A word can be a prefix of another word', ['To sort the letters', 'To balance the tree', 'To save memory'], '"do" and "dog" share a path, so the node for "o" must say that "do" is itself a word.'],
+  ['trie', 'The main cost of a trie is:', 'Memory for many child pointers', ['Slow lookups', 'Needing sorted input', 'Unbounded recursion'], 'Each node may hold a link per alphabet letter, which can use a lot of space for sparse data.'],
+  ['union', 'What does find(x) return in Union-Find?', 'The root (representative) of the group containing x', ['The size of the group', 'The parent of x only', 'The number of groups'], 'You follow parent links until a node is its own parent.'],
+  ['union', 'Starting with 6 separate items, how many groups remain after union(0,1), union(2,3) and union(1,0)?', '4', ['3', '5', '2'], 'The first two unions merge pairs (6 → 4). The third joins items already together, so nothing changes.'],
+  ['union', 'Path compression speeds up Union-Find by:', 'Pointing visited nodes straight at the root', ['Sorting the nodes', 'Deleting small groups', 'Using a hash table'], 'After a find, later finds on those nodes take one step.'],
+  ['union', 'Kruskal\'s algorithm uses Union-Find to:', 'Reject edges that would form a cycle', ['Sort the edges', 'Find shortest paths', 'Colour the graph'], 'If both endpoints already have the same root, the edge would close a cycle.'],
+  ['union', 'With union by rank and path compression, each operation costs about:', 'Nearly O(1) (inverse Ackermann)', ['O(n)', 'O(log n) always', 'O(n log n)'], 'The amortized cost grows so slowly it is below 5 for any realistic input.'],
+  ['back', 'Backtracking is best described as:', 'Depth-first search that abandons a partial solution once it cannot work', ['Breadth-first search over every state', 'Sorting then scanning', 'Greedy choices that are never undone'], 'It builds a candidate step by step and undoes (backtracks) a step as soon as the branch is a dead end.'],
+  ['back', 'In N-Queens, a new queen is unsafe if another queen shares its:', 'Column or diagonal', ['Row only', 'Colour only', 'Neighbouring square only'], 'Rows are handled by placing one queen per row, so only columns and both diagonals need checking.'],
+  ['back', 'What does pruning mean in backtracking?', 'Skipping branches that cannot lead to a valid solution', ['Deleting the input', 'Sorting the choices', 'Caching every answer'], 'The earlier a dead end is detected, the less of the search tree is explored.'],
+  ['back', 'The number of subsets of an n-item set, which bounds a naive subset-sum search, is:', '2^n', ['n²', 'n!', 'n log n'], 'Each item is taken or skipped, so there are 2 choices per item.'],
+  ['heap', 'Building a binary heap from n items with bottom-up heapify takes:', 'O(n)', ['O(n log n)', 'O(log n)', 'O(n²)'], 'Most nodes are near the bottom and sift only a short way, so the total work sums to O(n).'],
+  ['heap', 'In bottom-up heapify you start sifting down from:', 'The last parent node', ['The root', 'The last leaf', 'A random node'], 'Leaves are already heaps. The last parent is at index floor(n/2) - 1.'],
+  ['heap', 'In a max-heap each parent is:', 'At least as large as its children', ['Smaller than its children', 'Equal to its siblings', 'Larger than every node in the tree'], 'Only the parent-child relation is ordered, not siblings or cousins.'],
+  ['heap', 'Heap sort runs in:', 'O(n log n), in place', ['O(n), in place', 'O(n²)', 'O(n log n) with O(n) extra space'], 'Build a max-heap, then repeatedly swap the root to the end and sift down.'],
   ['type', 'Which data structure checks balanced brackets in O(n)?', 'A stack', ['A queue', 'A hash set', 'A sorted array'], 'Push each opener; each closer must match the most recent unmatched opener, which is exactly last-in, first-out.'],
   ['type', 'In the Fibonacci challenge, why does naive recursion time out at fib(45)?', 'It recomputes the same subproblems exponentially many times', ['It runs out of memory for the array', 'JavaScript numbers overflow', 'The loop never ends'], 'fib(n) calls fib(n-1) and fib(n-2), so the work roughly doubles with n. Memoization or a loop makes it O(n).'],
   ['type', 'Two Sum in O(n) uses which idea?', 'Store seen values in a hash map and look up target minus current', ['Sort and use two nested loops', 'Binary search every pair', 'Recursion on halves'], 'For each x you only need to know whether target - x appeared earlier, which a hash map answers in O(1).'],
@@ -137,8 +155,18 @@ export function buildQuiz(S) {
     }
     const [r, q, good, bad, why] = pools[room.id].pop()
     const opts = shuffle([good, ...bad])
-    out.push({ room: r, q, opts, answer: opts.indexOf(good), why })
+    out.push({ id: qid(q), room: r, q, opts, answer: opts.indexOf(good), why })
   }
   return out
 }
+
+export const qid = (q) => hashStr(q).toString(36)
+const toQ = ([r, q, good, bad, why]) => {
+  const opts = shuffle([good, ...bad])
+  return { id: qid(q), room: r, q, opts, answer: opts.indexOf(good), why }
+}
+export const questionById = (id) => { const b = BANK.find((x) => qid(x[1]) === id); return b ? toQ(b) : null }
+// n random questions from every room (interview mode).
+export const mixedQuiz = (n) => shuffle(BANK).slice(0, n).map(toQ)
+
 export const BANK_SIZE = BANK.length

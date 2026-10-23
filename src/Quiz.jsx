@@ -96,7 +96,7 @@ export default function Quiz() {
     setChosen(k)
   }
   const next = () => {
-    const a = [...answers, { room: q.room, ok: chosen === q.answer }]
+    const a = [...answers, { id: q.id, room: q.room, ok: chosen === q.answer }]
     setAnswers(a)
     setChosen(null)
     if (i + 1 >= qs.length) setGain(awardQuiz(a))

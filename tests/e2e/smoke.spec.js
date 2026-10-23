@@ -13,14 +13,14 @@ test('first run asks for a profile, then shows the map', async ({ page }) => {
   await expect(page.locator('.who').first()).toContainText('Asha')
   await expect(page.getByRole('heading', { name: 'Daily Challenge' })).toBeVisible()
   // 8 rooms plus quiz, analytics and tome
-  await expect(page.locator('.room')).toHaveCount(21)
+  await expect(page.locator('.room')).toHaveCount(25)
 })
 
 test('every room page renders without errors', async ({ page }) => {
   const errors = []
   page.on('pageerror', (e) => errors.push(e.message))
   await createProfile(page)
-  for (const label of ['Sorting Hall', 'Binary Vault', 'The Keep', 'Root Crypt', 'Labyrinth', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Analytics', 'Tome', 'Ledger', 'Settings']) {
+  for (const label of ['Sorting Hall', 'Binary Vault', 'The Keep', 'Root Crypt', 'Labyrinth', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Trie Tunnel', 'Union Yard', 'Backtrack Bastion', 'Heap Hollow', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Review', 'Interview', 'Visualizer', 'Cheat sheet', 'Shop', 'Weekly', 'Challenge', 'Endless', 'Speedrun', 'Sorting Race', 'Analytics', 'Tome', 'Ledger', 'Settings']) {
     await nav(page, label)
     await expect(page.locator('main h2').first()).toBeVisible()
   }
@@ -72,6 +72,7 @@ test('quiz: answer six questions and earn XP', async ({ page }) => {
 })
 
 test('profiles are separate and a PIN protects a profile', async ({ page, context }) => {
+  await context.addInitScript(() => { try { localStorage.setItem('dungeon-of-data-tutorial-v1', '1') } catch (e) { /* ignore */ } })
   await page.goto('/')
   await page.getByPlaceholder('e.g. Bhumika').fill('Asha')
   await page.getByPlaceholder('4 to 8 digits').fill('4321')

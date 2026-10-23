@@ -7,7 +7,7 @@ const SIZES = [
   ['tablet 768', 768, 1024],
   ['laptop 1280', 1280, 800],
 ]
-const VIEWS = ['Map', 'Campaign', 'Sorting Hall', 'Binary Vault', 'The Keep', 'Root Crypt', 'Labyrinth', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Analytics', 'Tome', 'Ledger', 'Settings']
+const VIEWS = ['Map', 'Campaign', 'Sorting Hall', 'Binary Vault', 'The Keep', 'Root Crypt', 'Labyrinth', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Trie Tunnel', 'Union Yard', 'Backtrack Bastion', 'Heap Hollow', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Analytics', 'Tome', 'Ledger', 'Settings']
 
 for (const [name, w, h] of SIZES) {
   test(`no horizontal page overflow on any screen (${name})`, async ({ page }) => {

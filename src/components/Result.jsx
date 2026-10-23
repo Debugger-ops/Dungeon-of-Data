@@ -18,6 +18,7 @@ export default function Result({ end, onAgain }) {
   }
   return (
     <div className="overlay">
+      {end.win && end.stars >= 3 && <div className="confetti" aria-hidden="true">{Array.from({ length: 24 }, (_, i) => <i key={i} style={{ '--x': `${(i * 37) % 100}%`, '--d': `${(i % 6) * 0.12}s`, '--h': `${(i * 47) % 360}` }} />)}</div>}
       <div className={`card result ${end.win ? 'win' : 'lose'}`} role="dialog" aria-label="Result">
         <h3>{end.win ? 'The wave is broken' : 'The keep has fallen'}</h3>
         <div className="stars">{end.win ? stars(end.stars) : '☆☆☆'}</div>
@@ -45,6 +46,8 @@ export default function Result({ end, onAgain }) {
             </>
           )}
           {end.win && <button className="btn" onClick={doShare}>Share result</button>}
+          {!end.win && !lv && !rush && <button className="btn" onClick={() => go('tome')}>Study the Tome</button>}
+          {!end.win && !lv && !rush && <button className="btn" onClick={() => go('quiz')}>Quiz me</button>}
         </div>
         <div className="fine" role="status" aria-live="polite" style={{ minHeight: '1.4em' }}>{note}</div>
       </div>

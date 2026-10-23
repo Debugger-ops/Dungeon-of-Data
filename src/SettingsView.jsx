@@ -1,6 +1,7 @@
 import { useProgress } from './progress'
 import { useSettings } from './settings'
 import { sfx } from './lib/sfx'
+import { LANGS } from './lib/i18n'
 
 const Seg = ({ value, options, onChange, label }) => (
   <div className="chips" role="radiogroup" aria-label={label}>
@@ -26,6 +27,19 @@ export default function SettingsView() {
         <h3>Appearance</h3>
         <div className="field">Theme<Seg label="Theme" value={st.theme} onChange={(theme) => st.set({ theme })} options={[['dark', 'Dark'], ['light', 'Light'], ['system', 'Match system']]} /></div>
         <div className="field">Text size<Seg label="Text size" value={st.text} onChange={(text) => st.set({ text })} options={[['normal', 'Normal'], ['large', 'Large']]} /></div>
+      </div>
+      <div className="card formcard">
+        <h3>Language and reminders</h3>
+        <div className="field">Interface language<Seg label="Interface language" value={st.lang} onChange={(lang) => st.set({ lang })} options={LANGS} /></div>
+        <p className="fine">Translates the menu. Puzzle text stays in English.</p>
+        <div className="field">Streak reminders<Seg label="Streak reminders" value={st.remind ? 'on' : 'off'} onChange={async (v) => {
+          if (v === 'on' && typeof Notification !== 'undefined') {
+            const r = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission()
+            st.set({ remind: r === 'granted' })
+          } else st.set({ remind: false })
+        }} options={[['on', 'On'], ['off', 'Off']]} /></div>
+        <p className="fine">While the game is open in a tab, you get a browser notification in the evening if your daily streak is still at risk. {typeof Notification === 'undefined' ? 'This browser does not support notifications.' : ''}</p>
+        <button className="btn" onClick={() => window.dispatchEvent(new Event('dod-tutorial'))}>Replay the tutorial</button>
       </div>
       <div className="card formcard">
         <h3>Sound</h3>

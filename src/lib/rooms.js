@@ -14,6 +14,10 @@ export const ROOMS = [
   { id: 'memory', name: 'Memory Match', sub: 'Card flip: match each structure or algorithm with its signature trait' },
   { id: 'stackdef', name: 'Stack Defender', sub: 'Stacks in action: bracket matching and postfix evaluation' },
   { id: 'bug', name: 'Bug Hunt', sub: 'Spot the one buggy line in short functions: off-by-ones, flipped checks' },
+  { id: 'trie', name: 'Trie Tunnel', sub: 'Tries: share prefixes, count new nodes and answer prefix queries' },
+  { id: 'union', name: 'Union Yard', sub: 'Union-Find: merge groups, follow parents to the root, count components' },
+  { id: 'back', name: 'Backtrack Bastion', sub: 'Backtracking: N-Queens and subset sum, try a choice and undo dead ends' },
+  { id: 'heap', name: 'Heap Hollow', sub: 'Heaps: build a min- or max-heap with bottom-up sift-down' },
   { id: 'graphb', name: 'Graph Builder', sub: 'Weighted graphs: build Dijkstra shortest paths and Kruskal spanning trees' },
 ]
 // Difficulty: life = extra goblin-lane tiles, xp = multiplier on round XP.
@@ -28,4 +32,6 @@ export const RANKS = [
   [150, 'Knight'],
   [300, 'Archmage'],
   [500, 'Dungeon Master'],
+  [800, 'Algorithm Sage'],
+  [1200, 'Grandmaster'],
 ]

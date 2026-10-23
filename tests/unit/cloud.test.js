@@ -49,7 +49,7 @@ describe('mergeStates', () => {
 describe('state additions', () => {
   it('older saves gain the new fields', () => {
     const s = normalize({ xp: 5, rooms: {} })
-    expect(s.best).toEqual({ wpm: 0 })
+    expect(s.best).toEqual({ wpm: 0, endless: 0, speed: {} })
     expect(s.daily).toMatchObject({ stars: 0, room: '' })
   })
   it('Speed Scribe unlocks at 40 WPM', () => {

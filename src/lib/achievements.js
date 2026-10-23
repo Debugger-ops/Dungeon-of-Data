@@ -21,5 +21,11 @@ export const ACHIEVEMENTS = [
   { id: 'rush', name: 'Rush Master', desc: 'Clear all three rooms of a Boss Rush', test: (s, e) => !!e.rush },
   { id: 'lvl5', name: 'Pathfinder', desc: 'Clear 5 campaign levels', test: (s) => clearedCount(s.campaign.stars) >= 5 },
   { id: 'lvl20', name: 'Campaign Complete', desc: 'Clear every campaign level', test: (s) => clearedCount(s.campaign.stars) >= LEVELS.length },
+  { id: 'xp800', name: 'Algorithm Sage', desc: 'Reach 800 XP', test: (s) => s.xp >= 800 },
+  { id: 'quest1', name: 'Quest Taker', desc: 'Complete a daily quest', test: (s) => s.questsDone >= 1 },
+  { id: 'quest10', name: 'Questmaster', desc: 'Complete 10 daily quests', test: (s) => s.questsDone >= 10 },
+  { id: 'prefix', name: 'Prefix Pro', desc: 'Win a round in Trie Tunnel and one in Union Yard', test: (s) => s.rooms.trie.wins >= 1 && s.rooms.union.wins >= 1 },
+  { id: 'veteran100', name: 'Centurion', desc: 'Win 100 rounds', test: (s) => sum(s, 'wins') >= 100 },
+  { id: 'world5', name: 'Catacomb Delver', desc: 'Clear every level of World 5', test: (s) => [1, 2, 3, 4, 5].every((n) => (s.campaign.stars[`5-${n}`] || 0) >= 1) },
   { id: 'scholar', name: 'Scholar', desc: 'Finish 5 quizzes', test: (s) => s.quiz.taken >= 5 },
 ]

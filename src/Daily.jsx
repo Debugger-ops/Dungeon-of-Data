@@ -18,8 +18,12 @@ import MemoryMatch from './rooms/MemoryMatch'
 import StackDefender from './rooms/StackDefender'
 import BugHunt from './rooms/BugHunt'
 import GraphBuilder from './rooms/GraphBuilder'
+import TrieTunnel from './rooms/TrieTunnel'
+import UnionYard from './rooms/UnionYard'
+import BacktrackBastion from './rooms/BacktrackBastion'
+import HeapHollow from './rooms/HeapHollow'
 
-export const ROOM_COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, dp: DPDungeon, type: ScribeTower, list: LinkedListLab, bits: BitBunker, bigo: BigOBlitz, window: PatternMatch, memory: MemoryMatch, stackdef: StackDefender, bug: BugHunt, graphb: GraphBuilder }
+export const ROOM_COMPONENTS = { sort: SortingHall, bsearch: BinaryVault, keep: TheKeep, crypt: RootCrypt, maze: GraphLabyrinth, hash: HashForge, dp: DPDungeon, type: ScribeTower, list: LinkedListLab, bits: BitBunker, bigo: BigOBlitz, window: PatternMatch, memory: MemoryMatch, stackdef: StackDefender, bug: BugHunt, graphb: GraphBuilder, trie: TrieTunnel, union: UnionYard, back: BacktrackBastion, heap: HeapHollow }
 
 export const dailyRoom = (day = dayKey()) => ROOMS[hashStr(day) % ROOMS.length]
 

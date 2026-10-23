@@ -3,6 +3,7 @@ import { dailyRoom } from './Daily'
 import { dayKey } from './lib/util'
 import { stars } from './lib/util'
 import { liveStreak, useProgress } from './progress'
+import Quests from './Quests'
 import { LEVELS, clearedCount, totalStars } from './lib/campaign'
 
 const ICONS = {
@@ -21,6 +22,10 @@ const ICONS = {
   crypt: (<><circle cx="60" cy="14" r="8" /><circle cx="34" cy="36" r="8" /><circle cx="86" cy="36" r="8" /><circle cx="20" cy="56" r="7" /><circle cx="48" cy="56" r="7" /><circle cx="100" cy="56" r="7" /></>),
   hash: (<><rect x="6" y="8" width="22" height="12" /><rect x="6" y="26" width="22" height="12" /><rect x="6" y="44" width="22" height="12" /><rect x="36" y="8" width="16" height="12" /><rect x="58" y="8" width="16" height="12" /><rect x="36" y="44" width="16" height="12" style={{ fill: 'var(--torch)' }} /></>),
   dp: (<><rect x="8" y="10" width="20" height="14" /><rect x="32" y="10" width="20" height="14" /><rect x="56" y="10" width="20" height="14" style={{ fill: 'var(--torch)' }} /><rect x="8" y="30" width="20" height="14" /><rect x="32" y="30" width="20" height="14" /><rect x="56" y="30" width="20" height="14" /><rect x="8" y="50" width="20" height="10" /><rect x="32" y="50" width="20" height="10" /></>),
+  trie: (<><circle cx="62" cy="10" r="6" /><circle cx="32" cy="32" r="6" /><circle cx="92" cy="32" r="6" /><circle cx="20" cy="54" r="5" /><circle cx="44" cy="54" r="5" style={{ fill: 'var(--torch)' }} /><circle cx="92" cy="54" r="5" /><path d="M58 15 L36 27 M66 15 L88 27 M28 37 L22 49 M36 37 L42 49 M92 38 L92 49" fill="none" /></>),
+  union: (<><circle cx="30" cy="20" r="8" style={{ fill: 'var(--torch)' }} /><circle cx="14" cy="48" r="7" /><circle cx="46" cy="48" r="7" /><circle cx="96" cy="20" r="8" style={{ fill: 'var(--torch)' }} /><circle cx="82" cy="48" r="7" /><circle cx="110" cy="48" r="7" /><path d="M24 27 L17 42 M36 27 L43 42 M90 27 L84 42 M102 27 L108 42" fill="none" /></>),
+  back: (<><rect x="8" y="8" width="48" height="48" /><path d="M32 8 V56 M8 32 H56" /><circle cx="20" cy="20" r="6" style={{ fill: 'var(--torch)' }} /><circle cx="44" cy="44" r="6" style={{ fill: 'var(--torch)' }} /><path d="M70 14 H116 M70 32 H104 M70 50 H92" fill="none" /></>),
+  heap: (<><circle cx="62" cy="10" r="7" style={{ fill: 'var(--torch)' }} /><circle cx="36" cy="32" r="7" /><circle cx="88" cy="32" r="7" /><circle cx="22" cy="54" r="6" /><circle cx="50" cy="54" r="6" /><circle cx="74" cy="54" r="6" /><circle cx="102" cy="54" r="6" /></>),
   maze: (<><circle cx="16" cy="32" r="8" /><circle cx="52" cy="12" r="8" /><circle cx="52" cy="52" r="8" /><circle cx="92" cy="32" r="8" /><circle cx="116" cy="12" r="6" /></>),
 }
 
@@ -52,6 +57,7 @@ export default function MapView() {
           <div className="sub" style={{ color: 'var(--mut)', fontSize: 13 }}>{DIFFS[S.difficulty].note}. Applies to new rounds in every room.</div>
         </div>
       </div>
+      <Quests />
       <div className="card">
         <div className="steps">
           <div><b>Goblins march</b>Every room has a lane. A wrong move lets the horde step closer to your keep.</div>
@@ -77,7 +83,7 @@ export default function MapView() {
             <circle cx="10" cy="52" r="5" style={{ fill: 'var(--ok)' }} /><circle cx="34" cy="40" r="5" style={{ fill: 'var(--ok)' }} /><circle cx="58" cy="46" r="5" style={{ fill: 'var(--panel2)' }} /><circle cx="82" cy="22" r="5" style={{ fill: 'var(--panel2)' }} /><circle cx="112" cy="12" r="6" style={{ fill: 'var(--bad)' }} />
           </svg>
           <h3>Campaign</h3>
-          <div className="sub">20 levels in 4 worlds. Fixed puzzles, rising difficulty, new levels unlock as you win</div>
+          <div className="sub">25 levels in 5 worlds. Fixed puzzles, rising difficulty, new levels unlock as you win</div>
           <div className="meta"><span>{clearedCount(S.campaign.stars)}/{LEVELS.length} cleared</span><span>{totalStars(S.campaign.stars)} stars</span></div>
         </button>
         <button className="room" onClick={() => go('rush')}>

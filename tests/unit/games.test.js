@@ -210,13 +210,13 @@ import { ACHIEVEMENTS } from '../../src/lib/achievements.js'
 const MODES = {
   sort: ['play', 'watch'], bsearch: ['v'], keep: ['sq', 'll'], crypt: ['bst', 'trav', 'heap', 'ext'], maze: ['bfs', 'dfs', 'dij'], hash: ['chain', 'probe'],
   dp: ['coin', 'lcs', 'knap'], type: ['type', 'write'], list: ['reverse', 'delete', 'insert'], bits: ['ops', 'tricks'], bigo: ['blitz'], window: ['two', 'slide'],
-  memory: ['match'], stackdef: ['brackets', 'postfix'], bug: ['hunt'], graphb: ['dijkstra', 'kruskal'],
+  memory: ['match'], stackdef: ['brackets', 'postfix'], bug: ['hunt'], graphb: ['dijkstra', 'kruskal'], trie: ['insert', 'prefix'], union: ['count', 'find'], back: ['queens', 'subset'], heap: ['min', 'max'],
 }
 describe('campaign', () => {
-  it('has 4 worlds of 5 levels with valid rooms, modes and difficulties', () => {
-    expect(WORLDS).toHaveLength(4)
-    expect(LEVELS).toHaveLength(20)
-    expect(new Set(LEVELS.map((l) => l.id)).size).toBe(20)
+  it('has 5 worlds of 5 levels with valid rooms, modes and difficulties', () => {
+    expect(WORLDS).toHaveLength(5)
+    expect(LEVELS).toHaveLength(25)
+    expect(new Set(LEVELS.map((l) => l.id)).size).toBe(25)
     LEVELS.forEach((l) => {
       expect(ROOMS.some((r) => r.id === l.room)).toBe(true)
       expect(MODES[l.room]).toContain(l.mode)
@@ -236,7 +236,7 @@ describe('campaign', () => {
     expect(isOpen('1-3', { '1-1': 3 })).toBe(false)
     expect(isOpen('2-1', { '1-5': 2 })).toBe(true)
     expect(nextLevel('1-5').id).toBe('2-1')
-    expect(nextLevel('4-5')).toBeNull()
+    expect(nextLevel('5-5')).toBeNull()
   })
   it('counts progress', () => {
     const st = { '1-1': 3, '1-2': 1, '1-3': 0 }

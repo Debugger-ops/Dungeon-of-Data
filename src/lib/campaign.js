@@ -43,6 +43,16 @@ export const WORLDS = [
       L(5, 'Final Boss: Write It', 'type', 'write', 'hard', 'Run the tests early and often.'),
     ],
   },
+  {
+    id: 5, name: 'Forgotten Catacombs', blurb: 'Prefix trees and disjoint sets: the structures behind autocomplete and networks.',
+    levels: [
+      L(1, 'First Letters', 'trie', 'insert', 'easy', 'Shared prefixes cost nothing: count only the letters that are new.'),
+      L(2, 'Merge the Clans', 'union', 'count', 'normal', 'A union of two already-joined nodes changes nothing.'),
+      L(3, 'Autocomplete', 'trie', 'prefix', 'normal', 'Count the words that begin with the prefix.'),
+      L(4, 'Find the Chief', 'union', 'find', 'hard', 'Follow parent links until a node is its own parent.'),
+      L(5, 'Boss: Knapsack Vault', 'dp', 'knap', 'hard', 'Each cell is the best of skipping or taking the item.'),
+    ],
+  },
 ]
 
 export const LEVELS = WORLDS.flatMap((w) => w.levels.map((l) => ({ ...l, id: `${w.id}-${l.n}`, world: w.id, worldName: w.name })))

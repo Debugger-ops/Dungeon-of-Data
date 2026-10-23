@@ -23,13 +23,13 @@ npm run build    # static site in dist/
 | `src/rooms/` | One file per room (Sorting Hall, Binary Vault, The Keep, Root Crypt, Graph Labyrinth, Hash Forge) |
 | `src/Daily.jsx` | Daily challenge: one room per day, date-seeded puzzle, streak and XP bonus |
 | `src/Quiz.jsx`, `src/lib/quiz.js` | 6-question quiz weighted toward your weakest rooms (42-question bank) |
-| `src/lib/achievements.js` | 13 achievements, checked after every round and quiz |
+| `src/lib/achievements.js` | 19 achievements, checked after every round and quiz |
 | `src/Tome.jsx`, `src/Ledger.jsx` | Big-O chart and tables, progress charts |
 
 ## Games, modes and levels
 
-- 16 rooms: Hash Forge, Sorting Gym, Binary Search, Crypt (BST/traversal/heap), Maze (BFS/Dijkstra), Stack/Queue, DP Dungeon, Scribe Tower, plus Linked List Lab, Bit Bunker, Big-O Blitz, Pattern Match, Memory Match, Stack Defender, Bug Hunt and Graph Builder.
-- **Campaign**: 4 worlds x 5 levels. Each level is a fixed puzzle (same on retry), unlocks the next, and saves 1-3 stars with an XP bonus.
+- 18 rooms: Trie Tunnel (insert and prefix search) and Union Yard (Union-Find), plus Hash Forge, Sorting Gym, Binary Search, Crypt (BST/traversal/heap), Maze (BFS/Dijkstra), Stack/Queue, DP Dungeon, Scribe Tower, plus Linked List Lab, Bit Bunker, Big-O Blitz, Pattern Match, Memory Match, Stack Defender, Bug Hunt and Graph Builder.
+- **Campaign**: 5 worlds x 5 levels. Each level is a fixed puzzle (same on retry), unlocks the next, and saves 1-3 stars with an XP bonus.
 - **Boss Rush**: three random rooms back to back; clear all three for a bonus.
 - **Daily**: one seeded puzzle per day.
 - Responsive from 360px phones up; tested for overflow and tap targets.
@@ -44,3 +44,7 @@ npm run build    # static site in dist/
 - **Local profiles**: create, switch and delete named profiles (colour avatar, optional PIN). Each keeps its own progress; progress saved before this feature becomes "Player 1". Stored in this browser only; a PIN is a lock screen, not encryption. Cloud sync would need a backend (Supabase or Firebase).
 - **Scholar's Quiz**, and **export / import / reset** of progress as JSON in the Ledger.
 # Dungeon-of-Data
+- **Daily Quests**: three per day (same for everyone), claim each for bonus XP. Pool and logic in `src/lib/quests.js`.
+- **Hero card** (Account page): rank progress, headline stats, strongest rooms, badge shelf, a title picked from your achievements, and a copyable summary.
+- **World 5: Forgotten Catacombs**, new ranks (Algorithm Sage, Grandmaster), 6 new achievements, 10 new quiz questions, and confetti on 3-star wins.
+- **Second batch:** Backtrack Bastion (N-Queens, subset sum), Heap Hollow (bottom-up heapify), Weekly challenge, Endless mode, Speedrun with saved best times, Sorting Race, Visualizer sandbox, Interview mode, spaced-repetition Review, XP Shop (streak freezes, avatar rings, titles), friend-challenge links (`?c=room:puzzle`), printable Cheat Sheet, hero-card PNG download, keyboard shortcuts (1-4, H, N), first-run tutorial, Hindi menu and optional streak reminder notifications.

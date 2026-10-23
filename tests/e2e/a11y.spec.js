@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { createProfile } from './helpers'
 
 const nav = (page, label) => page.locator('nav').getByRole('button', { name: label, exact: true }).click()
-const VIEWS = ['Map', 'Sorting Hall', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Analytics', 'Tome', 'Ledger', 'Settings']
+const VIEWS = ['Map', 'Sorting Hall', 'Hash Forge', 'DP Dungeon', 'Scribe Tower', 'Linked List Lab', 'Bit Bunker', 'Big-O Blitz', 'Pattern Match', 'Memory Match', 'Stack Defender', 'Bug Hunt', 'Graph Builder', 'Trie Tunnel', 'Union Yard', 'Backtrack Bastion', 'Heap Hollow', 'Campaign', 'Daily', 'Boss Rush', 'Leaderboard', 'Quiz', 'Analytics', 'Tome', 'Ledger', 'Settings']
 
 for (const theme of ['dark', 'light']) {
   test(`no detectable accessibility violations (${theme} theme)`, async ({ page }) => {
@@ -18,7 +18,7 @@ for (const theme of ['dark', 'light']) {
       if (v === 'account') await page.locator('.who').first().click()
       else await nav(page, v)
       await page.locator('main').first().waitFor()
-      await page.waitForTimeout(150)
+      await page.waitForTimeout(450)
       const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()
       r.violations.forEach((x) => found.push(`${v}: ${x.id} (${x.impact}) x${x.nodes.length} ${x.nodes[0].target.join(' ')}`))
     }

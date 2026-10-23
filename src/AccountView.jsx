@@ -3,6 +3,7 @@ import { Avatar, ColorPick, summary, useAccount } from './accounts'
 import { liveStreak, useProgress } from './progress'
 import { ACHIEVEMENTS } from './lib/achievements'
 import CloudCard from './CloudCard'
+import HeroCard from './HeroCard'
 
 export default function AccountView() {
   const A = useAccount()
@@ -47,6 +48,8 @@ export default function AccountView() {
         </div>
         <button className="btn ghost" onClick={() => go('map')}>← Map</button>
       </div>
+
+      <HeroCard p={p} />
 
       <div className="card">
         <div className="row" style={{ gap: 14 }}>

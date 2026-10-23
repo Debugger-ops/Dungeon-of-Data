@@ -267,7 +267,7 @@ const playHash = async (page) => {
 test('campaign: only level 1-1 is open, winning it unlocks 1-2 and saves stars', async ({ page }) => {
   await createProfile(page)
   await nav(page, 'Campaign')
-  await expect(page.getByTestId('camp-cleared')).toHaveText('0/20')
+  await expect(page.getByTestId('camp-cleared')).toHaveText('0/25')
   await expect(page.getByRole('button', { name: /^Level 1-2, locked/ })).toBeDisabled()
   await page.getByRole('button', { name: /^Level 1-1,/ }).click()
   await expect(page.getByTestId('level-id')).toHaveText('1-1')
@@ -275,7 +275,7 @@ test('campaign: only level 1-1 is open, winning it unlocks 1-2 and saves stars',
   await expect(page.getByText('The wave is broken')).toBeVisible()
   await expect(page.getByText('Level 1-1 cleared')).toBeVisible()
   await page.getByRole('button', { name: 'Level map' }).click()
-  await expect(page.getByTestId('camp-cleared')).toHaveText('1/20')
+  await expect(page.getByTestId('camp-cleared')).toHaveText('1/25')
   await expect(page.getByRole('button', { name: /^Level 1-2,/ })).toBeEnabled()
   await expect(page.getByRole('button', { name: /^Level 1-1,.*[123] of 3 stars/ })).toBeVisible()
 })

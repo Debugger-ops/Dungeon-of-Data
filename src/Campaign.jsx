@@ -35,7 +35,7 @@ export default function Campaign() {
       <div className="roomhead">
         <div>
           <h2>Campaign</h2>
-          <p className="lede">Twenty levels across four worlds. Every level is a fixed puzzle at a set difficulty, and clearing it unlocks the next. Earn bonus XP the first time you clear a level and for every star you add.</p>
+          <p className="lede">Twenty-five levels across five worlds. Every level is a fixed puzzle at a set difficulty, and clearing it unlocks the next. Earn bonus XP the first time you clear a level and for every star you add.</p>
         </div>
         <button className="btn ghost" onClick={() => go('map')}>← Map</button>
       </div>
